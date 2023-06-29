@@ -3,17 +3,18 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, } from '@mui/system';
 import { Grid } from '@material-ui/core';
+import InputAdornment from '@mui/material/InputAdornment';
+import EmailIcon from '@mui/icons-material/Email';
+import LockOpenRoundedIcon from '@mui/icons-material/LockOpenRounded';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from "@material-ui/core/CssBaseline";
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@material-ui/core';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import toast from 'react-hot-toast';
 import { theme } from '../../components/Layout/Background';
 
 export interface Props {
@@ -31,12 +32,14 @@ const Login: React.FC = () => {
     navigate('\home');
     setUsername("");
     setPassword("");
-    toast.success("Logged In Successfully");
   }
   const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value)
   }
   const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+  }
+  const signupHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value)
   }
   return (
@@ -55,9 +58,7 @@ const Login: React.FC = () => {
         borderRadius={5}
         boxShadow={"5px 5px 5px #ccc"}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'primary.dark', alignItems: 'center' }}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Avatar src="/broken-image.jpg" />
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -73,6 +74,13 @@ const Login: React.FC = () => {
             autoFocus
             value={username}
             onChange={usernameHandler}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EmailIcon />
+                </InputAdornment>
+              ),
+            }}
           />
 
           <TextField
@@ -85,6 +93,13 @@ const Login: React.FC = () => {
             autoComplete="current-password"
             value={password}
             onChange={passwordHandler}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockOpenRoundedIcon />
+                </InputAdornment>
+              ),
+            }}
           />
           <Grid item xs={12}>
             <FormControlLabel
@@ -98,7 +113,6 @@ const Login: React.FC = () => {
               type="submit"
               variant="contained"
               sx={{ mt: 3, borderRadius: 3, mb: 4, background: '' }}
-
             >
               Sign In
             </Button>
@@ -110,7 +124,7 @@ const Login: React.FC = () => {
               </Link>
             </Grid>
             <Grid item xs>
-              <Link href="#" variant="body2" style={{ color: "black", textDecoration: 'none' }}>
+              <Link href='./Register' variant="body2" style={{ color: "black", textDecoration: 'none' }}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
