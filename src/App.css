@@ -1,0 +1,31 @@
+*{
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+.app {
+  text-align: center;
+  height: '200vh';
+  background: linear-gradient(to top left, #e6e2d3, #a2b9bc);
+}
+
+/* Styles for screens with a maximum width of 600px */
+@media (max-width: 600px) {
+  .login {
+    max-width: 600;
+  }
+}
+
+/* Styles for screens with a minimum width of 601px and maximum width of 1200px */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .login {
+    max-width: 800;
+  }
+}
+
+/* Styles for screens with a minimum width of 1201px */
+@media screen and  (min-width: 1201px) {
+  .login {
+    max-width: 900;
+  }
+}
