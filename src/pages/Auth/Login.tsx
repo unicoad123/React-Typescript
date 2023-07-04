@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, } from '@mui/system';
@@ -16,6 +16,9 @@ import { ThemeProvider } from '@material-ui/core';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import { theme } from '../../components/Layout/Background';
+import { LOGIN_USER } from '../../graphql/mutation';
+import { useMutation } from '@apollo/client';
+//import { useAuth } from '../../context/auth';
 
 export interface Props {
   usernameHandler: (username: string) => void;
@@ -24,17 +27,38 @@ export interface Props {
 }
 
 const Login: React.FC = () => {
+  const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
+
   const navigate = useNavigate();
-  const [username, setUsername] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    navigate('\home');
-    setUsername("");
-    setPassword("");
+  //const { auth,setAuth } = useAuth();
+
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      try{
+      setEmail("");
+      setPassword("");
+      const { data } = await loginUser({
+        variables: { email, password },
+      });
+      // Handle success
+        const token = data.login.token;
+        // setAuth({
+        //   ...auth,  
+        //   user: data.login,
+        //   token: data.login.token,
+        // });
+
+        localStorage.setItem('auth', JSON.stringify(data.login));
+      navigate('\home');
+    }
+    catch(error:any) {
+      console.error('Error User Login:', error.message);
+    }
   }
-  const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value)
+  const emailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value)
   }
   const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value)
@@ -72,8 +96,8 @@ const Login: React.FC = () => {
             name="email"
             autoComplete="email"
             autoFocus
-            value={username}
-            onChange={usernameHandler}
+            value={email}
+            onChange={emailHandler}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

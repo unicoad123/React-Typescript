@@ -9,7 +9,7 @@ const PhoneRenderer: React.FC<PhoneRendererProps> = (props:PhoneRendererProps) =
     const cellValue:any= props.valueFormatted ? props.valueFormatted : props.value;
 
     const buttonClicked = ():void => {
-        alert(`${cellValue}`);
+        alert(`Hello ${cellValue}`);
     };
 
     return (

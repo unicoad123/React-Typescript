@@ -1,31 +1,3 @@
-// import React, { useState } from 'react';
-
-// interface ImageCellRendererProps {
-//     value: URL;
-//     altvalue?:any
-// }
-
-// const ImageCellRenderer: React.FC<ImageCellRendererProps> = (props: ImageCellRendererProps ) => {
-//     const [showOverlay, setShowOverlay] = useState(false);
-//     const value: any = props.value ? props.value : props.altvalue;
-
-//     const toggleOverlay = (show: boolean) => {
-//         setShowOverlay(show);
-//     };
-
-//     return (
-//         <div onMouseEnter={() => toggleOverlay(true)} onMouseLeave={() => toggleOverlay(false)}>
-//             {value}
-//             {showOverlay && (
-//                 <div className="image-overlay">
-//                     <img src={value} alt="Image" />
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default ImageCellRenderer;
 import React, { useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';

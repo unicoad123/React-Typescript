@@ -6,17 +6,18 @@ import {CellEditor} from './components/Grid/CellEditor'
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import Register from './pages/Auth/Register';
 import { PhotoDetails } from "./pages/Auth/PhotoDetails"
+import { OnScrollPagination }  from './components/Grid/onScrollpagination';
+//import GridExample from './components/Grid/CusotmPagination'
 
 const App:React.FC=()=> {
   return (
-    <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login />} />
-        <Route path='/home' element={<Home />} />
+      <Route path='/home' element={<Home />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/images' element={<PhotoDetails />} />
+      <Route path='/images' element={<PhotoDetails />} />
+        <Route path='/onScroll' element={<OnScrollPagination />} />
       </Routes>
-    </BrowserRouter>
 
   );
 }

@@ -16,11 +16,13 @@ import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@material-ui/core';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
+import { useMutation } from '@apollo/client';
+import { REGISTER_USER } from '../../graphql/mutation';
 import toast from 'react-hot-toast';
 import { theme } from '../../components/Layout/Background';
 
 export interface Props {
-    usernameHandler: (username: string) => void;
+    emailHandler: (username: string) => void;
     passwordHandler: (password: string) => void;
     phoneHandler: (phone: number) => void
     onSubmit: (username: string, password: string, phone: number) => void;
@@ -28,24 +30,39 @@ export interface Props {
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-    const [phone, setPhone] = useState<number | string>();
+    const [name, setName] = useState<string>("");
+    const [registerUser, { loading, error }] = useMutation(REGISTER_USER);
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        navigate('\home');
-        setUsername("");
-        setPassword("");
-        toast.success("Logged In Successfully");
+        try {
+            const { data } = await registerUser({
+                variables: { name,email, password },
+            });
+
+            // Handle success
+            console.log('Registered user:', data.register );
+            alert("Registered Successfully");
+            toast.success("Logged In Successfully");
+            navigate('/');
+            setEmail("");
+            setPassword("");
+        }
+        catch (error:any) {
+            // Handle error
+            console.error('Error registering user:', error.message);
+        }
+
     }
-    const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value)
+    const emailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value)
     }
     const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value)
     }
-    const phoneHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPhone(event.target.value)
+    const nameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value)
     }
     return (
         <ThemeProvider theme={theme}>
@@ -79,8 +96,8 @@ const Register: React.FC = () => {
                         name="email"
                         autoComplete="email"
                         autoFocus
-                        value={username}
-                        onChange={usernameHandler}
+                        value={email}
+                        onChange={emailHandler}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -93,13 +110,13 @@ const Register: React.FC = () => {
                     <TextField
                         margin="normal"
                         required
-                        name="phone"
-                        label="Phone"
-                        type="phone"
-                        id="phone"
+                        name="name"
+                        label="Enter Name"
+                        type="text"
+                        id="name"
                         autoComplete="current-phone"
-                        value={phone}
-                        onChange={phoneHandler}
+                        value={name}
+                        onChange={nameHandler}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
